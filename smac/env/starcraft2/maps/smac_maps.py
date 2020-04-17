@@ -33,8 +33,8 @@ map_param_registry = {
         "map_type": "marines",
     },
     "6m_random": {
-        "n_agents": 3,
-        "n_enemies": 3,
+        "n_agents": 6,
+        "n_enemies": 6,
         "limit": 100,
         "a_race": "T",
         "b_race": "T",
