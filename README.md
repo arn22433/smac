@@ -1,3 +1,5 @@
+This fork adds agents own position to their observation
+
 ```diff
 - SMAC V1 - SMAC is now more streamlined requiring significantly less compute! See paper for details.
 ```

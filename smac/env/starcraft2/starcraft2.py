@@ -77,6 +77,7 @@ class StarCraft2Env(MultiAgentEnv):
         obs_terrain_height=False,
         obs_instead_of_state=False,
         obs_timestep_number=False,
+        obs_own_position=False,
         state_last_action=True,
         state_timestep_number=False,
         reward_sparse=False,
@@ -209,6 +210,7 @@ class StarCraft2Env(MultiAgentEnv):
         self.obs_pathing_grid = obs_pathing_grid
         self.obs_terrain_height = obs_terrain_height
         self.obs_timestep_number = obs_timestep_number
+        self.obs_own_position = obs_own_position
         self.state_last_action = state_last_action
         self.state_timestep_number = state_timestep_number
         if self.obs_all_health:
@@ -982,6 +984,11 @@ class StarCraft2Env(MultiAgentEnv):
                 type_id = self.get_unit_type_id(unit, True)
                 own_feats[ind + type_id] = 1
 
+            if self.obs_own_position:
+                own_feats[ind] = (x - (self.map_x / 2)) / self.max_distance_x  # relative X
+                own_feats[ind + 1] = (y - (self.map_y / 2)) / self.max_distance_y  # relative Y
+                ind += 2
+
         agent_obs = np.concatenate(
             (
                 move_feats.flatten(),
@@ -1148,6 +1155,8 @@ class StarCraft2Env(MultiAgentEnv):
             own_feats += 1 + self.shield_bits_ally
         if self.obs_timestep_number:
             own_feats += 1
+        if self.obs_own_position:
+            own_feats += 2
 
         return own_feats
 
